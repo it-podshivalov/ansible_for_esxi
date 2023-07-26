@@ -1,0 +1,50 @@
+#показать список vmhba
+ansible all -m shell -a "esxcli  storage core adapter list"
+
+#выводит версию FW HBA с хостов
+ansible all -m shell -a "/usr/lib/vmware/vmkmgmt_keyval/vmkmgmt_keyval -a | grep FW"
+
+#выводит WWN ID HBA
+ansible all -m shell -a "esxcli storage core adapter list | grep qlna"
+
+#резетнуть vmhba
+ansible all -m shell -a "esxcli storage san fc reset -A vmhba3"
+
+#показать список vmhba
+ansible all -m shell -a "esxcli  storage core adapter list"
+
+
+
+#узнаем версию драйвера vmhba
+ansible all -m shell -a "vmkload_mod -s lpfc |grep Version"
+ansible all -m shell -a "vmkload_mod -s bfa |grep Version"
+ansible all -m shell -a "vmkload_mod -s qlnativefc |grep Version"
+
+
+
+
+#показывает статус nic линков
+ansible all -m shell -a "esxcli network nic list"
+
+#узнаем версию фирмвэа и драйвера vmnic
+ansible all -m shell -a "esxcli network nic get -n vmnic1 | grep Version"
+
+#выводим модель vmnic
+ansible all -m shell -a "lspci -vvv | grep Network"
+
+
+
+
+#Узнать VID DID SVID SDID
+ansible all -m shell -a "vmkchdev -l |grep vmhba2"
+ansible all -m shell -a "vmkchdev -l |grep vmnic4"
+
+#переключить default storage policy на RR
+ansible all -m shell -a "esxcli storage nmp satp set --default-psp=VMW_PSP_RR --satp=VMW_SATP_DEFAULT_AA"
+
+#проверяем наличие vxlan
+ansible all -m shell -a "esxcli network vswitch dvs vmware vxlan list"
+ansible all -m shell -a "net-vdl2 -l"
+
+#если ошибка подключения
+ssh-keygen -R "you server hostname or ip"
