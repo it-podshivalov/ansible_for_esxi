@@ -1,4 +1,4 @@
 ---
 ansible_ssh_user           : root
-ansible_ssh_pass           : 
+ansible_ssh_pass           : password
 ansible_python_interpreter : /bin/python

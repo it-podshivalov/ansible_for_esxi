@@ -1,1 +1,4 @@
 [esxi_hosts]
+ik5s07esx.sys.local
+ik6c02s10esx.sys.local
+ik6c02s11esx.sys.local
